@@ -47,8 +47,8 @@ class _UiSettings(BaseSettings):
     chat_title: str = "Start en samtale med FU Chatbot"
     chat_description: str = "Denne chatbot kan hjælpe dig med alle spørgsmål"
     favicon: str = "/favicon.ico"
-    show_share_button: bool = True
-    show_chat_history_button: bool = True
+    show_share_button: bool = False
+    show_chat_history_button: bool = False
 
 
 class _ChatHistorySettings(BaseSettings):
