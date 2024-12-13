@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import { initializeIcons } from '@fluentui/react';
-import { ConsoleSpanExporter, NodeTracerProvider, SimpleSpanProcessor } from "@opentelemetry/sdk-trace-node"; 
 import { ApplicationInsights } from '@microsoft/applicationinsights-web'
 
 
@@ -28,7 +27,7 @@ function App() {
   useEffect(() => {
 
     appInsights.trackTrace({ message: 'loaded', severityLevel: 1 });
-    
+
     const validateToken = async (token: string) => {
       try {
         const response = await fetch('https://access-token-validator.square-union-6da7.workers.dev/validate', {
