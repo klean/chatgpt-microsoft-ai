@@ -25,7 +25,7 @@ function App() {
   const location = useLocation();
 
   useEffect(() => {
-
+    console.log('loaded'),
     appInsights.trackTrace({ message: 'loaded', severityLevel: 1 });
 
     const validateToken = async (token: string) => {
