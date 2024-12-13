@@ -50,6 +50,11 @@ const enum messageStatus {
 const appInsights = new ApplicationInsights({
   config: {
     connectionString: 'InstrumentationKey=c410a6ea-3299-4bad-9287-8251f187843b;IngestionEndpoint=https://swedencentral-0.in.applicationinsights.azure.com/;ApplicationId=3ecfb0b8-cb99-485b-b2c2-25975e4830d7',
+    disableFetchTracking: true,      // Deaktiver tracking af fetch-kald
+    disableAjaxTracking: true,       // Deaktiver tracking af AJAX-kald
+    disableExceptionTracking: true,  // Deaktiver exception tracking
+    disableTelemetry: false,         // Tillad stadig brugerdefinerede events
+    autoTrackPageVisitTime: false,   // Deaktiver tracking af tid brugt på siden
   },
 });
 appInsights.loadAppInsights();
