@@ -15,9 +15,11 @@
     "format": "npm run prettier:fix && npm run lint:fix"
   },
   "dependencies": {
+    "@azure-rest/ai-inference": "^1.0.0-beta.4",
     "@fluentui/react": "^8.105.3",
     "@fluentui/react-hooks": "^8.6.29",
     "@fluentui/react-icons": "^2.0.195",
+    "@microsoft/applicationinsights-web": "^3.3.4",
     "dompurify": "^3.0.8",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
