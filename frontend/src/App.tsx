@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import { initializeIcons } from '@fluentui/react';
-import { ApplicationInsights } from '@microsoft/applicationinsights-web'
 
 
 import Chat from './pages/chat/Chat';
@@ -13,20 +12,12 @@ import './index.css';
 
 initializeIcons();
 
-const appInsights = new ApplicationInsights({ config: {
-  connectionString: 'InstrumentationKey=c410a6ea-3299-4bad-9287-8251f187843b;IngestionEndpoint=https://swedencentral-0.in.applicationinsights.azure.com/;ApplicationId=3ecfb0b8-cb99-485b-b2c2-25975e4830d7',
-} });
-
-appInsights.loadAppInsights();
-
 function App() {
   const [isValid, setIsValid] = useState<boolean | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    console.log('loaded'),
-    appInsights.trackTrace({ message: 'loaded', severityLevel: 1 });
 
     const validateToken = async (token: string) => {
       try {

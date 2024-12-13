@@ -1,6 +1,8 @@
 import { useRef, useState, useEffect, useContext, useLayoutEffect } from 'react'
 import { CommandBarButton, IconButton, Dialog, DialogType, Stack } from '@fluentui/react'
 import { SquareRegular, ShieldLockRegular, ErrorCircleRegular } from '@fluentui/react-icons'
+import { ApplicationInsights } from '@microsoft/applicationinsights-web';
+
 
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -44,6 +46,14 @@ const enum messageStatus {
   Processing = 'Processing',
   Done = 'Done'
 }
+
+const appInsights = new ApplicationInsights({
+  config: {
+    connectionString: 'InstrumentationKey=c410a6ea-3299-4bad-9287-8251f187843b;IngestionEndpoint=https://swedencentral-0.in.applicationinsights.azure.com/;ApplicationId=3ecfb0b8-cb99-485b-b2c2-25975e4830d7',
+  },
+});
+appInsights.loadAppInsights();
+
 
 const Chat = () => {
   const appStateContext = useContext(AppStateContext)
@@ -180,6 +190,18 @@ const Chat = () => {
   }
 
   const makeApiRequestWithoutCosmosDB = async (question: ChatMessage["content"], conversationId?: string) => {
+    // Hent token fra localStorage
+    const userToken = localStorage.getItem('token');
+
+    // Send prompt og token til Application Insights
+    appInsights.trackEvent({
+      name: 'PromptSent',
+      properties: {
+        userToken: userToken || 'Unknown User',
+        prompt: question,
+      },
+    });
+
     setIsLoading(true)
     setShowLoadingMessage(true)
     const abortController = new AbortController()
@@ -307,6 +329,18 @@ const Chat = () => {
   }
 
   const makeApiRequestWithCosmosDB = async (question: ChatMessage["content"], conversationId?: string) => {
+    // Hent token fra localStorage
+    const userToken = localStorage.getItem('token');
+
+    // Send prompt og token til Application Insights
+    appInsights.trackEvent({
+      name: 'PromptSent',
+      properties: {
+        userToken: userToken || 'Unknown User',
+        prompt: question,
+      },
+    });
+    
     setIsLoading(true)
     setShowLoadingMessage(true)
     const abortController = new AbortController()
