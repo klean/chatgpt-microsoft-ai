@@ -166,13 +166,22 @@ const Chat = () => {
     }
 
     if (resultMessage.role === ASSISTANT) {
-      appInsights.trackEvent({
-        name: 'ResponseReceived',
-        properties: {
-          conversationId: conversationId || 'Unknown Conversation',
-          prompt: resultMessage.content,
-        },
-      });
+
+      assistantContent += resultMessage.content;
+
+      if (resultMessage.end_turn) {
+        appInsights.trackEvent({
+          name: 'ResponseReceived',
+          properties: {
+            conversationId: conversationId || 'Unknown Conversation',
+            prompt: assistantContent,
+            answerId: resultMessage.id,
+          },
+        });
+
+        assistantContent = '';
+      }
+
 
       setAnswerId(resultMessage.id)
       assistantContent += resultMessage.content
@@ -190,14 +199,6 @@ const Chat = () => {
     }
 
     if (resultMessage.role === TOOL) {
-      appInsights.trackEvent({
-        name: 'ToolResponseReceived',
-        properties: {
-          conversationId: conversationId || 'Unknown Conversation',
-          prompt: resultMessage.content,
-        },
-      });
-
       toolMessage = resultMessage;
     }
 
