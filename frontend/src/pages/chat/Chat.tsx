@@ -166,6 +166,14 @@ const Chat = () => {
     }
 
     if (resultMessage.role === ASSISTANT) {
+      appInsights.trackEvent({
+        name: 'ResponseReceived',
+        properties: {
+          conversationId: conversationId || 'Unknown Conversation',
+          prompt: resultMessage.content,
+        },
+      });
+
       setAnswerId(resultMessage.id)
       assistantContent += resultMessage.content
       assistantMessage = { ...assistantMessage, ...resultMessage }
@@ -181,7 +189,17 @@ const Chat = () => {
       }
     }
 
-    if (resultMessage.role === TOOL) toolMessage = resultMessage
+    if (resultMessage.role === TOOL) {
+      appInsights.trackEvent({
+        name: 'ToolResponseReceived',
+        properties: {
+          conversationId: conversationId || 'Unknown Conversation',
+          prompt: resultMessage.content,
+        },
+      });
+
+      toolMessage = resultMessage;
+    }
 
     if (!conversationId) {
       isEmpty(toolMessage)
@@ -203,6 +221,7 @@ const Chat = () => {
       name: 'PromptSent',
       properties: {
         userToken: userToken || 'Unknown User',
+        conversationId: conversationId || 'Unknown Conversation',
         prompt: question,
       },
     });
@@ -342,6 +361,7 @@ const Chat = () => {
       name: 'PromptSent',
       properties: {
         userToken: userToken || 'Unknown User',
+        conversationId: conversationId || 'Unknown Conversation',
         prompt: question,
       },
     });
