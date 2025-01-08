@@ -220,7 +220,7 @@ const Chat = () => {
     appInsights.trackEvent({
       name: 'PromptSent',
       properties: {
-        userToken: userToken || 'Unknown User',
+        company: userToken || 'Unknown User',
         conversationId: conversationId || 'Unknown Conversation',
         prompt: question,
       },
@@ -360,7 +360,7 @@ const Chat = () => {
     appInsights.trackEvent({
       name: 'PromptSent',
       properties: {
-        userToken: userToken || 'Unknown User',
+        company: userToken || 'Unknown User',
         conversationId: conversationId || 'Unknown Conversation',
         prompt: question,
       },
