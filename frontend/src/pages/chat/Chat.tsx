@@ -85,6 +85,7 @@ const Chat = () => {
   const [errorMsg, setErrorMsg] = useState<ErrorMessage | null>()
   const [logo, setLogo] = useState('')
   const [answerId, setAnswerId] = useState<string>('')
+  const hasTracked = useRef(false);
 
   const errorDialogContentProps = {
     type: DialogType.close,
@@ -102,6 +103,54 @@ const Chat = () => {
 
   const [ASSISTANT, TOOL, ERROR] = ['assistant', 'tool', 'error']
   const NO_CONTENT_ERROR = 'No content in messages object.'
+
+  useEffect(() => {
+    // Konverter messages til en tekststreng
+    const promptMessages = messages
+        .filter(msg => msg.role === 'assistant') // Filtrer kun assistant-beskeder
+        .slice(-1) // Tag kun den sidste besked
+        .map(msg => {
+          if (typeof msg.content === 'string') {
+            return msg.content;
+          } else if (Array.isArray(msg.content)) {
+            const textPart = msg.content.find(
+                part => part.type === 'text' && 'text' in part
+            ) as { type: string; text: string } | undefined;
+            return textPart ? textPart.text : '';
+          }
+          return '';
+        })
+        .join('');
+
+    // Track event kun hvis isLoading er false, der er en besked, og vi ikke allerede har tracket
+    if (!isLoading && promptMessages && !hasTracked.current) {
+      console.log('isLoading: ' + isLoading);
+      console.log('Tracking event: ResponseReceived');
+      console.log('LocalGuid: ' + appGuid);
+      console.log('Company: ' + (localStorage.getItem('token') || 'Unknown User'));
+      console.log('ConversationId: ' + (answerId || 'Unknown Conversation'));
+      console.log('Prompt: ', promptMessages);
+
+      appInsights.trackEvent({
+        name: 'ResponseReceived',
+        properties: {
+          localGuid: appGuid,
+          company: localStorage.getItem('token') || 'Unknown User',
+          conversationId: answerId || 'Unknown Conversation',
+          prompt: promptMessages,
+        },
+      });
+
+      // Markér som tracket
+      hasTracked.current = true;
+    }
+
+    // Reset hasTracked, hvis isLoading ændres tilbage til true
+    if (isLoading) {
+      hasTracked.current = false;
+    }
+  }, [isLoading, messages]);
+
 
   useEffect(() => {
     if (
@@ -171,24 +220,6 @@ const Chat = () => {
     }
 
     if (resultMessage.role === ASSISTANT) {
-
-      assistantContent += resultMessage.content;
-      console.log('assistantContent', assistantContent, resultMessage.end_turn);
-      if (resultMessage.end_turn) {
-        appInsights.trackEvent({
-          name: 'ResponseReceived',
-          properties: {
-            localGuid: appGuid,
-            company: localStorage.getItem ('token') || 'Unknown User',
-            conversationId: conversationId || 'Unknown Conversation',
-            prompt: assistantContent
-          },
-        });
-
-        assistantContent = '';
-      }
-
-
       setAnswerId(resultMessage.id)
       assistantContent += resultMessage.content
       assistantMessage = { ...assistantMessage, ...resultMessage }
