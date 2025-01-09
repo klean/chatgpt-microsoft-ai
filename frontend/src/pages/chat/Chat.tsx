@@ -12,6 +12,7 @@ import { isEmpty } from 'lodash'
 import DOMPurify from 'dompurify'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { nord } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import { v4 as uuidv4 } from 'uuid';
 
 import styles from './Chat.module.css'
 import Contoso from '../../assets/FuLogo.svg'
@@ -46,6 +47,10 @@ const enum messageStatus {
   Processing = 'Processing',
   Done = 'Done'
 }
+
+// create a random GUID for the application insights instance
+const appGuid: string = uuidv4();
+
 
 const appInsights = new ApplicationInsights({
   config: {
@@ -168,14 +173,15 @@ const Chat = () => {
     if (resultMessage.role === ASSISTANT) {
 
       assistantContent += resultMessage.content;
-
+      console.log('assistantContent', assistantContent, resultMessage.end_turn);
       if (resultMessage.end_turn) {
         appInsights.trackEvent({
           name: 'ResponseReceived',
           properties: {
+            localGuid: appGuid,
+            company: localStorage.getItem ('token') || 'Unknown User',
             conversationId: conversationId || 'Unknown Conversation',
-            prompt: assistantContent,
-            answerId: resultMessage.id,
+            prompt: assistantContent
           },
         });
 
@@ -214,14 +220,12 @@ const Chat = () => {
   }
 
   const makeApiRequestWithoutCosmosDB = async (question: ChatMessage["content"], conversationId?: string) => {
-    // Hent token fra localStorage
-    const userToken = localStorage.getItem('token');
-
     // Send prompt og token til Application Insights
     appInsights.trackEvent({
       name: 'PromptSent',
       properties: {
-        company: userToken || 'Unknown User',
+        localGuid: appGuid,
+        company: localStorage.getItem('token') || 'Unknown User',
         conversationId: conversationId || 'Unknown Conversation',
         prompt: question,
       },
@@ -354,14 +358,13 @@ const Chat = () => {
   }
 
   const makeApiRequestWithCosmosDB = async (question: ChatMessage["content"], conversationId?: string) => {
-    // Hent token fra localStorage
-    const userToken = localStorage.getItem('token');
 
     // Send prompt og token til Application Insights
     appInsights.trackEvent({
       name: 'PromptSent',
       properties: {
-        company: userToken || 'Unknown User',
+        localGuid: appGuid,
+        company: localStorage.getItem('token') || 'Unknown User',
         conversationId: conversationId || 'Unknown Conversation',
         prompt: question,
       },
