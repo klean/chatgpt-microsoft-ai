@@ -41,11 +41,11 @@ class _UiSettings(BaseSettings):
         env_ignore_empty=True
     )
 
-    title: str = "FU Chatbot"
+    title: str = ""
     logo: Optional[str] = None
     chat_logo: Optional[str] = None
     chat_title: str = "Start en samtale med FU Chatbot"
-    chat_description: str = "Denne chatbot kan hjælpe dig med alle spørgsmål"
+    chat_description: str = "Denne chatbot kan hjælpe dig med at svare på spørgsmål og finde kilder fra FU’s faglige materiale."
     favicon: str = "/favicon.ico"
     show_share_button: bool = False
     show_chat_history_button: bool = False
