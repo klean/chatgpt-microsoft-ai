@@ -41,6 +41,7 @@ import { QuestionInput } from "../../components/QuestionInput";
 import { ChatHistoryPanel } from "../../components/ChatHistory/ChatHistoryPanel";
 import { AppStateContext } from "../../state/AppProvider";
 import { useBoolean } from "@fluentui/react-hooks";
+import { DeleteIcon } from '@fluentui/react-icons-mdl2';
 
 const enum messageStatus {
   NotRunning = 'Not Running',
@@ -902,7 +903,7 @@ const Chat = () => {
                     <div className={styles.chatMessageGpt}>
                       <Answer
                         answer={{
-                          answer: "Generating answer...",
+                          answer: "Genererer svar...",
                           citations: [],
                           generated_chart: null
                         }}
@@ -982,14 +983,14 @@ const Chat = () => {
                       ? styles.clearChatBroom
                       : styles.clearChatBroomNoCosmos
                   }
-                  iconProps={{ iconName: 'Broom' }}
                   onClick={
                     appStateContext?.state.isCosmosDBAvailable?.status !== CosmosDBStatus.NotConfigured
                       ? clearChat
                       : newChat
                   }
                   disabled={disabledButton()}
-                  aria-label="clear chat button"
+                  aria-label="Ryd chat knap"
+                  onRenderIcon={() => <DeleteIcon style={{ fontSize: '24px', color: '#424242' }} />}
                 />
                 <Dialog
                   hidden={hideErrorDialog}

@@ -14,5 +14,8 @@ export default defineConfig({
       '/ask': 'http://localhost:5000',
       '/chat': 'http://localhost:5000'
     }
+  },
+  optimizeDeps: {
+    exclude: ['@fluentui/react-icons']
   }
 })
