@@ -9,6 +9,7 @@ import NoPage from './pages/NoPage';
 import { AppStateProvider } from './state/AppProvider';
 
 import './index.css';
+import PleaseLogin from './pages/PleaseLogin'
 
 initializeIcons();
 
@@ -77,12 +78,18 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Chat />} />
-          <Route path="*" element={<NoPage />} />
+          <Route path="*" element={<PleaseLogin />} />
         </Route>
       </Routes>
     </AppStateProvider>
   ) : (
-    <NoPage />
+      <AppStateProvider>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<PleaseLogin />} />
+          </Route>
+        </Routes>
+      </AppStateProvider>
   );
 }
 
