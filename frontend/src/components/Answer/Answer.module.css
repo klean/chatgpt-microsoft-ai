@@ -4,7 +4,6 @@
   align-items: flex-start;
   padding: 8.1285px;
   gap: 5.42px;
-  background: #ffffff;
   box-shadow:
     0px 1px 2px rgba(0, 0, 0, 0.14),
     0px 0px 2px rgba(0, 0, 0, 0.12);
@@ -26,6 +25,28 @@
   word-wrap: break-word;
   max-width: 800px;
   overflow-x: auto;
+}
+
+.preStack {
+  background-color: var(--color-primary);
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1/1;
+
+  &:before {
+    content: '';
+    background-color: var(--color-on_primary);
+    width: 24px;
+    height: 24px;
+    mask-image:  url('/src/assets/isolatedLogo.svg');
+    display: block;
+    mask-size: cover;
+  }
 }
 
 .answerHeader {
@@ -177,6 +198,18 @@
 .clickableSup:hover {
   text-decoration: underline;
   cursor: pointer;
+}
+
+.loader {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.loaderItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 sup {

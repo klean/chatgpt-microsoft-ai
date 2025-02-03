@@ -2,6 +2,13 @@
   box-sizing: border-box;
 }
 
+:root {
+  --color-primary: #2D4E6A;
+  --color-on_primary: white;
+
+  --color-secondary: #efefef;
+}
+
 html,
 body {
   height: 100%;
@@ -26,4 +33,42 @@ html {
 
 #root {
   height: 100%;
+}
+
+.loader p {
+  margin-top: 0;
+  font-weight: bold;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.dot:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes pulse {
+  0% {
+      opacity: 0;
+  }
+  100% {
+      opacity: 1;
+  }
+}
+
+textarea {
+  outline: none !important;
 }

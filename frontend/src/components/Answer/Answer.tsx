@@ -191,6 +191,7 @@ export const Answer = ({ answer, onCitationClicked, onExectResultClicked }: Prop
 
   const ReportInappropriateFeedbackContent = () => {
     return (
+      
       <>
         <div>
           The content is <span style={{ color: 'red' }}>*</span>
@@ -243,6 +244,20 @@ export const Answer = ({ answer, onCitationClicked, onExectResultClicked }: Prop
   }
   return (
     <>
+      <div className={styles.preStack}></div>
+
+      {answer.abstraction ? (
+            <div className={'loader ' + styles.loader}>
+              <p>{answer.answer}</p>
+              <div className={styles.loaderItem}>
+                <div className="dot"></div>
+                <div className="dot"></div>
+                <div className="dot"></div>
+              </div>
+            </div>
+        ) : (
+        
+
       <Stack className={styles.answerContainer} tabIndex={0}>
         <Stack.Item>
           <Stack horizontal grow>
@@ -371,6 +386,7 @@ export const Answer = ({ answer, onCitationClicked, onExectResultClicked }: Prop
           </div>
         )}
       </Stack>
+      )}
       <Dialog
         onDismiss={() => {
           resetFeedbackDialog()

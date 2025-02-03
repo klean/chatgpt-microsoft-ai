@@ -854,14 +854,16 @@ const Chat = () => {
 
   return (
     <div className={styles.container} role="main">
-      <Stack horizontal className={styles.chatRoot}>
-          <div className={styles.chatContainer}>
+      <Stack className={styles.chatRoot}>
+        
+          <div className={styles.bodyHeader}>
+            <h1 className={styles.bodyHeaderTitle}>FU chatbot</h1>
+          </div>
+          <div className={`${styles.chatContainer} ${messages.length < 1 ? styles.chatContainerEmpty : ''}`}>
             {!messages || messages.length < 1 ? (
-              <Stack className={styles.chatEmptyState}>
-                <img src={logo} className={styles.chatIcon} aria-hidden="true" />
-                <h1 className={styles.chatEmptyStateTitle}>{ui?.chat_title}</h1>
-                <h2 className={styles.chatEmptyStateSubtitle}>{ui?.chat_description}</h2>
-              </Stack>
+              <>
+                <h1>Hvad kan jeg hjælpe med?</h1>
+              </>
             ) : (
               <div className={styles.chatMessageStream} style={{ marginBottom: isLoading ? '40px' : '0px' }} role="log">
                 {messages.map((answer, index) => (
@@ -903,9 +905,10 @@ const Chat = () => {
                     <div className={styles.chatMessageGpt}>
                       <Answer
                         answer={{
-                          answer: "Genererer svar...",
+                          answer: "Søger i FU materiale",
                           citations: [],
-                          generated_chart: null
+                          generated_chart: null,
+                          abstraction: true
                         }}
                         onCitationClicked={() => null}
                         onExectResultClicked={() => null}
@@ -933,71 +936,6 @@ const Chat = () => {
                   </span>
                 </Stack>
               )}
-              <Stack>
-                {appStateContext?.state.isCosmosDBAvailable?.status !== CosmosDBStatus.NotConfigured && (
-                  <CommandBarButton
-                    role="button"
-                    styles={{
-                      icon: {
-                        color: '#FFFFFF'
-                      },
-                      iconDisabled: {
-                        color: '#BDBDBD !important'
-                      },
-                      root: {
-                        color: '#FFFFFF',
-                        background:
-                          'radial-gradient(109.81% 107.82% at 100.1% 90.19%, #0F6CBD 33.63%, #2D87C3 70.31%, #8DDDD8 100%)'
-                      },
-                      rootDisabled: {
-                        background: '#F0F0F0'
-                      }
-                    }}
-                    className={styles.newChatIcon}
-                    iconProps={{ iconName: 'Add' }}
-                    onClick={newChat}
-                    disabled={disabledButton()}
-                    aria-label="start a new chat button"
-                  />
-                )}
-                <CommandBarButton
-                  role="button"
-                  styles={{
-                    icon: {
-                      color: '#FFFFFF'
-                    },
-                    iconDisabled: {
-                      color: '#BDBDBD !important'
-                    },
-                    root: {
-                      color: '#FFFFFF',
-                      background:
-                        'radial-gradient(109.81% 107.82% at 100.1% 90.19%, #0F6CBD 33.63%, #2D87C3 70.31%, #8DDDD8 100%)'
-                    },
-                    rootDisabled: {
-                      background: '#F0F0F0'
-                    }
-                  }}
-                  className={
-                    appStateContext?.state.isCosmosDBAvailable?.status !== CosmosDBStatus.NotConfigured
-                      ? styles.clearChatBroom
-                      : styles.clearChatBroomNoCosmos
-                  }
-                  onClick={
-                    appStateContext?.state.isCosmosDBAvailable?.status !== CosmosDBStatus.NotConfigured
-                      ? clearChat
-                      : newChat
-                  }
-                  disabled={disabledButton()}
-                  aria-label="Ryd chat knap"
-                  onRenderIcon={() => <DeleteIcon style={{ fontSize: '24px', color: '#424242' }} />}
-                />
-                <Dialog
-                  hidden={hideErrorDialog}
-                  onDismiss={handleErrorDialogClose}
-                  dialogContentProps={errorDialogContentProps}
-                  modalProps={modalProps}></Dialog>
-              </Stack>
               <QuestionInput
                 clearOnSend
                 placeholder="Skriv et nyt spørgsmål..."
@@ -1101,9 +1039,78 @@ const Chat = () => {
           )}
           {appStateContext?.state.isChatHistoryOpen &&
             appStateContext?.state.isCosmosDBAvailable?.status !== CosmosDBStatus.NotConfigured && <ChatHistoryPanel />}
+        
         </Stack>
     </div>
   )
 }
 
 export default Chat
+
+/*
+<Stack>
+                {appStateContext?.state.isCosmosDBAvailable?.status !== CosmosDBStatus.NotConfigured && (
+                  <CommandBarButton
+                    role="button"
+                    styles={{
+                      icon: {
+                        color: '#FFFFFF'
+                      },
+                      iconDisabled: {
+                        color: '#BDBDBD !important'
+                      },
+                      root: {
+                        color: '#FFFFFF',
+                        background:
+                          'radial-gradient(109.81% 107.82% at 100.1% 90.19%, #0F6CBD 33.63%, #2D87C3 70.31%, #8DDDD8 100%)'
+                      },
+                      rootDisabled: {
+                        background: '#F0F0F0'
+                      }
+                    }}
+                    className={styles.newChatIcon}
+                    iconProps={{ iconName: 'Add' }}
+                    onClick={newChat}
+                    disabled={disabledButton()}
+                    aria-label="start a new chat button"
+                  />
+                )}
+                {/* <CommandBarButton
+                  role="button"
+                  styles={{
+                    icon: {
+                      color: '#FFFFFF'
+                    },
+                    iconDisabled: {
+                      color: '#BDBDBD !important'
+                    },
+                    root: {
+                      color: '#FFFFFF',
+                      background:
+                        'radial-gradient(109.81% 107.82% at 100.1% 90.19%, #0F6CBD 33.63%, #2D87C3 70.31%, #8DDDD8 100%)'
+                    },
+                    rootDisabled: {
+                      background: '#F0F0F0'
+                    }
+                  }}
+                  className={
+                    appStateContext?.state.isCosmosDBAvailable?.status !== CosmosDBStatus.NotConfigured
+                      ? styles.clearChatBroom
+                      : styles.clearChatBroomNoCosmos
+                  }
+                  onClick={
+                    appStateContext?.state.isCosmosDBAvailable?.status !== CosmosDBStatus.NotConfigured
+                      ? clearChat
+                      : newChat
+                  }
+                  disabled={disabledButton()}
+                  aria-label="Ryd chat knap"
+                  onRenderIcon={() => <DeleteIcon style={{ fontSize: '24px', color: '#424242' }} />}
+                /> }
+                <Dialog
+                  hidden={hideErrorDialog}
+                  onDismiss={handleErrorDialogClose}
+                  dialogContentProps={errorDialogContentProps}
+                  modalProps={modalProps}></Dialog>
+              </Stack>
+              */
