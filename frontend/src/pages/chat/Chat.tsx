@@ -930,7 +930,7 @@ const Chat = () => {
                   tabIndex={0}
                   onClick={stopGenerating}
                   onKeyDown={e => (e.key === 'Enter' || e.key === ' ' ? stopGenerating() : null)}>
-                  <SquareRegular className={styles.stopGeneratingIcon} aria-hidden="true" />
+                  {/* <SquareRegular className={styles.stopGeneratingIcon} aria-hidden="true" /> */}
                   <span className={styles.stopGeneratingText} aria-hidden="true">
                     Stop generating
                   </span>
@@ -964,7 +964,7 @@ const Chat = () => {
                   Citations
                 </span>
                 <IconButton
-                  iconProps={{ iconName: 'Cancel' }}
+                  className="icon-button --cancel"
                   aria-label="Close citations panel"
                   onClick={() => setIsCitationPanelOpen(false)}
                 />
