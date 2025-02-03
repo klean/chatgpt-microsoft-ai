@@ -886,7 +886,9 @@ const Chat = () => {
               <>
               <div className="topBar">
                 <h1>Få hjælp fra FU</h1>
-                <button onClick={clearChat} className="icon-button --clear --right --primary">Ryd chat</button>
+                <button onClick={appStateContext?.state.isCosmosDBAvailable?.status !== CosmosDBStatus.NotConfigured
+                      ? clearChat
+                      : newChat} className="icon-button --clear --right --primary">Ryd chat</button>
               </div>
               <div className={styles.chatMessageStream} style={{ marginBottom: isLoading ? '40px' : '0px' }} role="log">
                 {messages.map((answer, index) => (
