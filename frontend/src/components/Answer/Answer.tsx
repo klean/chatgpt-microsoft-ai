@@ -329,11 +329,7 @@ export const Answer = ({ answer, onCitationClicked, onExectResultClicked }: Prop
                         : '1 reference'}
                     </span>
                   </Text>
-                  <FontIcon
-                    className={styles.accordionIcon}
-                    onClick={handleChevronClick}
-                    iconName={chevronIsExpanded ? 'ChevronDown' : 'ChevronRight'}
-                  />
+                  <span className="font-icon --document" onClick={handleChevronClick}></span>
                 </Stack>
               </Stack>
             </Stack.Item>
@@ -355,11 +351,7 @@ export const Answer = ({ answer, onCitationClicked, onExectResultClicked }: Prop
                       Show Intents
                     </span>
                   </Text>
-                  <FontIcon
-                    className={styles.accordionIcon}
-                    onClick={handleChevronClick}
-                    iconName={'ChevronRight'}
-                  />
+                  <span className="font-icon --document" onClick={handleChevronClick}></span>
                 </Stack>
               </Stack>
             </Stack.Item>

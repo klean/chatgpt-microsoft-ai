@@ -28,7 +28,7 @@
   border-radius: 8px; */
   background-color: white;
   overflow-y: auto;
-  height: calc(100vh - 225px);
+  height: calc(100vh - (0px + 0px + 65px));
 
 }
 

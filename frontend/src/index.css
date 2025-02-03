@@ -73,10 +73,31 @@ textarea {
   outline: none !important;
 }
 
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .icon-button {
   border: 1px solid var(--color-primary);
 }
 
+button.icon-button {
+  background-color: transparent;
+  padding: 12px;
+  font-weight: bold;
+  position: relative;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.font-icon {
+  position: relative;
+  padding-left: 15px;
+}
+
+.font-icon:before,
 .icon-button:before {
   content: '';
   mask-repeat: no-repeat;
@@ -91,6 +112,32 @@ textarea {
   transform: translate(-50%, -50%);
 }
 
+
+.--document:before {
+  mask-image: url('/src/assets/multiple-pages.svg');
+}
+
 .icon-button.--cancel:before {
   mask-image: url('/src/assets/xmark.svg');
+}
+
+.icon-button.--clear:before {
+  mask-image: url('/src/assets/chat-plus-in.svg');
+}
+
+.icon-button.--right {
+  padding-right: 40px;
+}
+.icon-button.--primary {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.icon-button.--primary:before {
+  background-color: var(--color-primary);
+}
+
+.icon-button.--right:before {
+  left: auto;
+  right: 0;
 }

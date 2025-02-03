@@ -866,6 +866,10 @@ const Chat = () => {
               </>
             ) : (
               <div className={styles.chatMessageStream} style={{ marginBottom: isLoading ? '40px' : '0px' }} role="log">
+                <div className="topBar">
+                  <h1>Få hjælp fra FU</h1>
+                  <button onClick={clearChat} className="icon-button --clear --right --primary">Ryd chat</button>
+                </div>
                 {messages.map((answer, index) => (
                   <>
                     {answer.role === 'user' ? (
