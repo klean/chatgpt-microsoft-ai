@@ -115,6 +115,9 @@ button.icon-button {
   transform: translate(-50%, -50%);
 }
 
+textarea {
+  font-family: inherit;
+}
 
 .--document:before {
   mask-image: url('/src/assets/multiple-pages.svg');

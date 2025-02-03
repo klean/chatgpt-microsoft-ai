@@ -630,28 +630,46 @@ const Chat = () => {
   }
 
   const clearChat = async () => {
-    setClearingChat(true)
-    if (appStateContext?.state.currentChat?.id && appStateContext?.state.isCosmosDBAvailable.cosmosDB) {
-      let response = await historyClear(appStateContext?.state.currentChat.id)
-      if (!response.ok) {
-        setErrorMsg({
-          title: 'Error clearing current chat',
-          subtitle: 'Please try again. If the problem persists, please contact the site administrator.'
-        })
-        toggleErrorDialog()
-      } else {
-        appStateContext?.dispatch({
-          type: 'DELETE_CURRENT_CHAT_MESSAGES',
-          payload: appStateContext?.state.currentChat.id
-        })
-        appStateContext?.dispatch({ type: 'UPDATE_CHAT_HISTORY', payload: appStateContext?.state.currentChat })
-        setActiveCitation(undefined)
-        setIsCitationPanelOpen(false)
-        setIsIntentsPanelOpen(false)
-        setMessages([])
-      }
+    
+    console.log('trigger clearChat')
+
+    if(appStateContext?.state?.currentChat) {
+      appStateContext?.dispatch({
+        type: 'DELETE_CURRENT_CHAT_MESSAGES',
+        payload: appStateContext?.state.currentChat.id
+      })
+      appStateContext?.dispatch({ type: 'UPDATE_CHAT_HISTORY', payload: appStateContext.state.currentChat })
+      setActiveCitation(undefined)
+      setIsCitationPanelOpen(false)
+      setIsIntentsPanelOpen(false)
+      setMessages([])
     }
-    setClearingChat(false)
+
+    // setClearingChat(true)
+
+    // if (appStateContext?.state.currentChat?.id) {
+    //   let response = await historyClear(appStateContext?.state.currentChat.id)
+    //   if (!response.ok) {
+    //     console.log('RESPONSE NOT OK', response)
+    //     setErrorMsg({
+    //       title: 'Error clearing current chat',
+    //       subtitle: 'Please try again. If the problem persists, please contact the site administrator.'
+    //     })
+    //     toggleErrorDialog()
+    //   } else {
+
+    //     appStateContext?.dispatch({
+    //       type: 'DELETE_CURRENT_CHAT_MESSAGES',
+    //       payload: appStateContext?.state.currentChat.id
+    //     })
+    //     appStateContext?.dispatch({ type: 'UPDATE_CHAT_HISTORY', payload: appStateContext?.state.currentChat })
+    //     setActiveCitation(undefined)
+    //     setIsCitationPanelOpen(false)
+    //     setIsIntentsPanelOpen(false)
+    //     setMessages([])
+    //   }
+    // }
+    // setClearingChat(false)
   }
 
   const tryGetRaiPrettyError = (errorMessage: string) => {
