@@ -111,7 +111,7 @@
     0px 0px 2px rgba(0, 0, 0, 0.12);
   font-style: normal;
   font-weight: 400;
-  font-size: 14px;
+  /* font-size: 14px; */
   line-height: 22px;
   color: #242424;
   order: 0;
@@ -404,22 +404,26 @@ a {
   align-items: center;
   background-color: var(--color-primary);
   width: 100%;
-  height: 65px;
+  /* height: 65px; */
   padding-left: 30px;
 
   &:before {
     content: '';
     display: inline-block;
-    width: 50px;
-    height: 50px;
+    width: 42px;
+    height: 42px;
     mask-image: url('/src/assets/isolatedLogo.svg');
     mask-size: cover;
     background-color: var(--color-on_primary);
+    margin: 14px 0;
   }
 }
 
 .bodyHeaderTitle {
+  margin: 0;
   color: var(--color-on_primary);
+  font-size: 22px;
+  font-weight: 600;
 }
 
 @media (max-width: 480px) {

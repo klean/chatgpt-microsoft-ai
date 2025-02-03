@@ -2,7 +2,7 @@
   min-height: 70px;
   height: fit-content;
   background: var(--color-secondary);
-  padding: 0 24px;
+  padding: 0 24px 0 0;
   border-radius: 8px;
   width: 100%;
 }
@@ -21,7 +21,7 @@
 
     textarea {
       margin-right: 60px;
-      font-size: 24px;
+      font-size: 12px;
       padding: 10px;
       line-height: 15px;
 
@@ -32,7 +32,7 @@
 .questionInputSendButtonContainer {
   position: absolute;
   right: 12px;
-  bottom: 14px;
+  bottom: 12px;
   /* bottom: 20px; */
   background-color: var(--color-primary);
   border-radius: 50%;

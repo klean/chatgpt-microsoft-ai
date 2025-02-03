@@ -964,7 +964,7 @@ const Chat = () => {
               )}
               <QuestionInput
                 clearOnSend
-                placeholder="Skriv et nyt spørgsmål..."
+                placeholder="Send besked til FU chatbot"
                 disabled={isLoading}
                 onSend={(question, id) => {
                   appStateContext?.state.isCosmosDBAvailable?.cosmosDB
