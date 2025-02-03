@@ -1046,6 +1046,7 @@ const Chat = () => {
           {appStateContext?.state.isChatHistoryOpen &&
             appStateContext?.state.isCosmosDBAvailable?.status !== CosmosDBStatus.NotConfigured && <ChatHistoryPanel />}
         
+        <p className={styles.usageMessage}>Denne chatbot er drevet af kunstig intelligens. Indhold genereret af kunstig intelligens kan være forkert. Vi bruger ikke dine chats til at træne vores modeller.</p>
         </Stack>
     </div>
   )
