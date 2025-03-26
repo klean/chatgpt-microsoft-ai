@@ -149,6 +149,25 @@
   gap: 4px;
 }
 
+.suggestionsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 10px;
+  padding: 10px;
+}
+
+.suggestion {
+  box-sizing: border-box;
+  align-items: center;
+  padding: 5px 16px;
+  gap: 4px;
+  border-radius: 16px;
+  box-shadow: 0 2px 4px #00000024, 0 0 2px #0000001f;
+  cursor: pointer;
+  color: #242424;
+}
+
 .citationContainer {
   margin-left: 10px;
   font-style: normal;

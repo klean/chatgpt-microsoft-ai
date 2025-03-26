@@ -5,7 +5,8 @@ import { AskResponse, Citation } from '../../api'
 export type ParsedAnswer = {
   citations: Citation[]
   markdownFormatText: string,
-  generated_chart: string | null
+  generated_chart: string | null,
+  suggestions: string[]
 } | null
 
 export const enumerateCitations = (citations: Citation[]) => {
@@ -25,6 +26,14 @@ export const enumerateCitations = (citations: Citation[]) => {
 export function parseAnswer(answer: AskResponse): ParsedAnswer {
   if (typeof answer.answer !== "string") return null
   let answerText = answer.answer
+  
+  // Find og udtræk suggestions
+  const matches = answerText.match(/<div>.*?<\/div>/g) || [];
+  const suggestions = matches.map(match => match.replace(/<\/?div>/g, ''));
+  
+  // Fjern suggestions fra svarteksten
+  answerText = answerText.replace(/<div>.*?<\/div>/g, '').trim();
+
   const citationLinks = answerText.match(/\[(doc\d\d?\d?)]/g)
 
   const lengthDocN = '[doc'.length
@@ -48,6 +57,7 @@ export function parseAnswer(answer: AskResponse): ParsedAnswer {
   return {
     citations: filteredCitations,
     markdownFormatText: answerText,
-    generated_chart: answer.generated_chart
+    generated_chart: answer.generated_chart,
+    suggestions: suggestions
   }
 }

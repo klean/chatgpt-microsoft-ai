@@ -125,12 +125,15 @@ const Chat = () => {
 
     // Track event kun hvis isLoading er false, der er en besked, og vi ikke allerede har tracket
     if (!isLoading && promptMessages && !hasTracked.current) {
+
+      {/* 
       console.log('isLoading: ' + isLoading);
       console.log('Tracking event: ResponseReceived');
       console.log('LocalGuid: ' + appGuid);
       console.log('Company: ' + (localStorage.getItem('token') || 'Unknown User'));
       console.log('ConversationId: ' + (answerId || 'Unknown Conversation'));
       console.log('Prompt: ', promptMessages);
+      */}
 
       appInsights.trackEvent({
         name: 'ResponseReceived',

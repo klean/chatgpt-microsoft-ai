@@ -33,8 +33,8 @@ export const Answer = ({ answer, onCitationClicked, onExectResultClicked }: Prop
 
   const [isRefAccordionOpen, { toggle: toggleIsRefAccordionOpen }] = useBoolean(false)
   const filePathTruncationLimit = 50
-
   const parsedAnswer = useMemo(() => parseAnswer(answer), [answer])
+
   const [chevronIsExpanded, setChevronIsExpanded] = useState(isRefAccordionOpen)
   const [feedbackState, setFeedbackState] = useState(initializeAnswerFeedback(answer))
   const [isFeedbackDialogOpen, setIsFeedbackDialogOpen] = useState(false)
@@ -256,7 +256,6 @@ export const Answer = ({ answer, onCitationClicked, onExectResultClicked }: Prop
               </div>
             </div>
         ) : (
-        
 
       <Stack className={styles.answerContainer} tabIndex={0}>
           {/* References list */}
@@ -298,8 +297,8 @@ export const Answer = ({ answer, onCitationClicked, onExectResultClicked }: Prop
                 remarkPlugins={[remarkGfm, supersub]}
                 children={
                   SANITIZE_ANSWER
-                    ? DOMPurify.sanitize(parsedAnswer?.markdownFormatText, { ALLOWED_TAGS: XSSAllowTags, ALLOWED_ATTR: XSSAllowAttributes })
-                    : parsedAnswer?.markdownFormatText
+                    ? DOMPurify.sanitize(parsedAnswer.markdownFormatText, { ALLOWED_TAGS: XSSAllowTags, ALLOWED_ATTR: XSSAllowAttributes })
+                    : parsedAnswer.markdownFormatText
                 }
                 className={styles.answerText}
                 components={components}
@@ -336,12 +335,21 @@ export const Answer = ({ answer, onCitationClicked, onExectResultClicked }: Prop
             </Stack.Item>
           </Stack>
         </Stack.Item>
+        
         {parsedAnswer?.generated_chart !== null && (
           <Stack className={styles.answerContainer}>
             <Stack.Item grow>
               <img src={`data:image/png;base64, ${parsedAnswer?.generated_chart}`} />
             </Stack.Item>
           </Stack>
+        )}
+
+        {parsedAnswer?.suggestions && parsedAnswer?.suggestions.length > 0 && (
+          <Stack.Item className={styles.suggestionsContainer}>
+            {parsedAnswer.suggestions.map((suggestion, index) => (
+              <div className={styles.suggestion} key={index}>{suggestion}</div>
+            ))}
+          </Stack.Item>
         )}
 
         <Stack horizontal className={styles.answerFooter}>
