@@ -259,6 +259,37 @@ export const Answer = ({ answer, onCitationClicked, onExectResultClicked }: Prop
         
 
       <Stack className={styles.answerContainer} tabIndex={0}>
+          {/* References list */}
+          {!!parsedAnswer?.citations.length && (
+          <div className={styles.referenceWrapper}>
+            {parsedAnswer?.citations.map((citation, idx) => {
+              return (
+                <div
+                  title={createCitationFilepath(citation, ++idx)}
+                  role="link"
+                  key={idx}
+                  className={styles.reference}
+                  aria-label={createCitationFilepath(citation, idx)}>
+                  <h3 className={styles.referenceTitle}>{citation.title || 'Dokument'}</h3>
+                  <div className={styles.referenceContent}>
+                    <div className={styles.referenceNumber}>{idx}</div>
+                    <div className={styles.referenceSource}>
+                      {citation.url ? (
+                        <a tabIndex={0} href={citation.url} target="_blank" rel="noopener noreferrer">
+                          {createCitationFilepath(citation, idx, true)} 
+                        </a>
+                      ) : (
+                        <span tabIndex={0} onClick={() => onCitationClicked(citation)} onKeyDown={e => e.key === 'Enter' && onCitationClicked(citation)}>
+                          {createCitationFilepath(citation, idx, true)}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+          )}
         <Stack.Item>
           <Stack horizontal grow>
             <Stack.Item grow>
@@ -312,7 +343,9 @@ export const Answer = ({ answer, onCitationClicked, onExectResultClicked }: Prop
             </Stack.Item>
           </Stack>
         )}
+
         <Stack horizontal className={styles.answerFooter}>
+          {/*
           {!!parsedAnswer?.citations.length && (
             <Stack.Item onKeyDown={e => (e.key === 'Enter' || e.key === ' ' ? toggleIsRefAccordionOpen() : null)}>
               <Stack style={{ width: '100%' }}>
@@ -334,6 +367,7 @@ export const Answer = ({ answer, onCitationClicked, onExectResultClicked }: Prop
               </Stack>
             </Stack.Item>
           )}
+          */}
           <Stack.Item className={styles.answerDisclaimerContainer}>
             <span className={styles.answerDisclaimer}>Dette er AI-genereret indhold</span>
           </Stack.Item>
@@ -379,6 +413,7 @@ export const Answer = ({ answer, onCitationClicked, onExectResultClicked }: Prop
         )}
       </Stack>
       )}
+
       <Dialog
         onDismiss={() => {
           resetFeedbackDialog()
