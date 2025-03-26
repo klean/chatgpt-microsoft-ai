@@ -20,9 +20,10 @@ interface Props {
   answer: AskResponse
   onCitationClicked: (citedDocument: Citation) => void
   onExectResultClicked: (answerId: string) => void
+  onSendMessage: (message: string, conversationId?: string) => void
 }
 
-export const Answer = ({ answer, onCitationClicked, onExectResultClicked }: Props) => {
+export const Answer = ({ answer, onCitationClicked, onExectResultClicked, onSendMessage }: Props) => {
   const initializeAnswerFeedback = (answer: AskResponse) => {
     if (answer.message_id == undefined) return undefined
     if (answer.feedback == undefined) return undefined
@@ -242,6 +243,11 @@ export const Answer = ({ answer, onCitationClicked, onExectResultClicked }: Prop
       )
     }
   }
+
+  const handleSuggestionClick = (suggestion: string) => {
+    onSendMessage(suggestion, answer.message_id);
+  };
+
   return (
     <>
       <div className={styles.preStack}></div>
@@ -347,7 +353,21 @@ export const Answer = ({ answer, onCitationClicked, onExectResultClicked }: Prop
         {parsedAnswer?.suggestions && parsedAnswer?.suggestions.length > 0 && (
           <Stack.Item className={styles.suggestionsContainer}>
             {parsedAnswer.suggestions.map((suggestion, index) => (
-              <div className={styles.suggestion} key={index}>{suggestion}</div>
+              <div 
+                className={styles.suggestion} 
+                key={index}
+                onClick={() => handleSuggestionClick(suggestion)}
+                style={{ cursor: 'pointer' }}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    handleSuggestionClick(suggestion)
+                  }
+                }}
+              >
+                {suggestion}
+              </div>
             ))}
           </Stack.Item>
         )}

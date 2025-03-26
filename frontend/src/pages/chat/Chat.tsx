@@ -696,7 +696,7 @@ const Chat = () => {
         // Returning the prettified error message
         if (reason !== '') {
           return (
-            'The prompt was filtered due to triggering Azure OpenAI’s content filtering system.\n' +
+            'The prompt was filtered due to triggering Azure OpenAI\'s content filtering system.\n' +
             'Reason: This prompt contains content flagged as ' +
             reason +
             '\n\n' +
@@ -873,6 +873,12 @@ const Chat = () => {
     )
   }
 
+  const handleSendMessage = (message: string, conversationId?: string) => {
+    appStateContext?.state.isCosmosDBAvailable?.cosmosDB
+      ? makeApiRequestWithCosmosDB(message, conversationId)
+      : makeApiRequestWithoutCosmosDB(message, conversationId);
+  };
+
   return (
     <div className={styles.container} role="main">
       <Stack className={styles.chatRoot}>
@@ -915,6 +921,7 @@ const Chat = () => {
                           }}
                           onCitationClicked={c => onShowCitation(c)}
                           onExectResultClicked={() => onShowExecResult(answerId)}
+                          onSendMessage={handleSendMessage}
                         />}
                       </div>
                     ) : answer.role === ERROR ? (
@@ -940,6 +947,7 @@ const Chat = () => {
                         }}
                         onCitationClicked={() => null}
                         onExectResultClicked={() => null}
+                        onSendMessage={(message: string) => null}
                       />
                     </div>
                   </>
