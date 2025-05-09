@@ -139,7 +139,7 @@ const Chat = () => {
         name: 'ResponseReceived',
         properties: {
           localGuid: appGuid,
-          company: localStorage.getItem('token') || 'Unknown User',
+          company: localStorage.getItem('user') || 'Unknown User',
           conversationId: answerId || 'Unknown Conversation',
           prompt: promptMessages,
         },
@@ -260,7 +260,7 @@ const Chat = () => {
       name: 'PromptSent',
       properties: {
         localGuid: appGuid,
-        company: localStorage.getItem('token') || 'Unknown User',
+        company: localStorage.getItem('user') || 'Unknown User',
         conversationId: conversationId || 'Unknown Conversation',
         prompt: question,
       },
@@ -399,7 +399,7 @@ const Chat = () => {
       name: 'PromptSent',
       properties: {
         localGuid: appGuid,
-        company: localStorage.getItem('token') || 'Unknown User',
+        company: localStorage.getItem('user') || 'Unknown User',
         conversationId: conversationId || 'Unknown Conversation',
         prompt: question,
       },

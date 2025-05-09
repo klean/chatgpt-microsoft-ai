@@ -7,11 +7,17 @@ import Chat from './pages/chat/Chat';
 import Layout from './pages/layout/Layout';
 import NoPage from './pages/NoPage';
 import { AppStateProvider } from './state/AppProvider';
+import { jwtDecode } from "jwt-decode";
 
 import './index.css';
 import PleaseLogin from './pages/PleaseLogin'
 
 initializeIcons();
+
+interface JwtPayload {
+  name?: string;
+  [key: string]: any;
+}
 
 function App() {
   const [isValid, setIsValid] = useState<boolean | null>(null);
@@ -33,15 +39,38 @@ function App() {
         if (response.status === 200) {
           setIsValid(true);
           localStorage.setItem('token', token); // Gem token i localStorage
+          localStorage.setItem('user', token);
           return true;
         } else {
-          setIsValid(false);
-          localStorage.removeItem('token'); // Slet ugyldigt token
-          return false;
+
+          const fuVal = await fetch('https://videnbarometer.dk/util/fu/jwt/validate', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+            }
+          });
+
+          if (fuVal.status === 200) {
+            setIsValid(true);
+            localStorage.setItem('token', token); // Gem token i localStorage
+
+            const decoded: JwtPayload = jwtDecode<JwtPayload>(token);
+            const userName = decoded.name ?? 'Ukendt bruger';
+            localStorage.setItem('user', userName);
+            return true;
+          } else {
+            setIsValid(false);
+            localStorage.removeItem('token'); // Slet ugyldigt token
+            localStorage.removeItem('user'); // Slet ugyldigt token
+            return false;
+          }
+
         }
       } catch (error) {
         setIsValid(false);
         localStorage.removeItem('token');
+        localStorage.removeItem('user');
         return false;
       }
     };

@@ -23,6 +23,7 @@
     "@fluentui/react-textarea": "^9.3.98",
     "@microsoft/applicationinsights-web": "^3.3.4",
     "dompurify": "^3.0.8",
+    "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
     "react": "^18.2.0",
