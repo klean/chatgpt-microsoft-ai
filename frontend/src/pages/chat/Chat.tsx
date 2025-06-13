@@ -56,11 +56,15 @@ const appGuid: string = uuidv4();
 const appInsights = new ApplicationInsights({
   config: {
     connectionString: 'InstrumentationKey=c410a6ea-3299-4bad-9287-8251f187843b;IngestionEndpoint=https://swedencentral-0.in.applicationinsights.azure.com/;ApplicationId=3ecfb0b8-cb99-485b-b2c2-25975e4830d7',
-    disableFetchTracking: true,      // Deaktiver tracking af fetch-kald
-    disableAjaxTracking: true,       // Deaktiver tracking af AJAX-kald
-    disableExceptionTracking: true,  // Deaktiver exception tracking
-    disableTelemetry: true,         // Tillad stadig brugerdefinerede events
-    autoTrackPageVisitTime: false,   // Deaktiver tracking af tid brugt på siden
+    disableInstrumentationKeyValidation: true,
+    disableFetchTracking: true,
+    disableAjaxTracking: true,
+    disableExceptionTracking: true,
+    disableTelemetry: false,
+    autoTrackPageVisitTime: false,
+    enableAutoRouteTracking: false,
+    isBrowserLinkTrackingEnabled: false,
+    enableCorsCorrelation: false,
   },
 });
 appInsights.loadAppInsights();
@@ -143,7 +147,12 @@ const Chat = () => {
           conversationId: answerId || 'Unknown Conversation',
           prompt: promptMessages,
         },
+        measurements: {},
       });
+
+      appInsights.context.telemetryTrace.traceID = '';
+      appInsights.context.user.id = '';
+      appInsights.context.device.id = '';
 
       // Markér som tracket
       hasTracked.current = true;
@@ -264,7 +273,12 @@ const Chat = () => {
         conversationId: conversationId || 'Unknown Conversation',
         prompt: question,
       },
+      measurements: {},
     });
+
+    appInsights.context.telemetryTrace.traceID = '';
+    appInsights.context.user.id = '';
+    appInsights.context.device.id = '';
 
     setIsLoading(true)
     setShowLoadingMessage(true)
@@ -403,7 +417,12 @@ const Chat = () => {
         conversationId: conversationId || 'Unknown Conversation',
         prompt: question,
       },
+      measurements: {},
     });
+
+    appInsights.context.telemetryTrace.traceID = '';
+    appInsights.context.user.id = '';
+    appInsights.context.device.id = '';
     
     setIsLoading(true)
     setShowLoadingMessage(true)
