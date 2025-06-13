@@ -59,7 +59,7 @@ const appInsights = new ApplicationInsights({
     disableFetchTracking: true,      // Deaktiver tracking af fetch-kald
     disableAjaxTracking: true,       // Deaktiver tracking af AJAX-kald
     disableExceptionTracking: true,  // Deaktiver exception tracking
-    disableTelemetry: false,         // Tillad stadig brugerdefinerede events
+    disableTelemetry: true,         // Tillad stadig brugerdefinerede events
     autoTrackPageVisitTime: false,   // Deaktiver tracking af tid brugt på siden
   },
 });
